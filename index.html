@@ -691,7 +691,10 @@
       cargoConfig.loading = true;
       renderCargosCards();
 
-      const urlPrimary = `https://colinha.sandrafaraj.com.br/api/candidatos?cargo=${cargoConfig.cargoApi}&numero=${numero}`;
+      const apiBaseUrl = window.location.protocol === 'file:'
+        ? 'https://colinha.sandrafaraj.com.br'
+        : '';
+      const urlPrimary = `${apiBaseUrl}/api/candidatos?cargo=${cargoConfig.cargoApi}&numero=${numero}`;
       
       try {
         // Attempt fetch from primary API
@@ -702,7 +705,7 @@
 
         if (!response.ok && cargoConfig.fallbackCargoApi && cargoConfig.fallbackCargoApi !== cargoConfig.cargoApi) {
           // Attempt fallback cargo if 8 (Distrital) -> 7 (Estadual)
-          const urlFallback = `https://colinha.sandrafaraj.com.br/api/candidatos?cargo=${cargoConfig.fallbackCargoApi}&numero=${numero}`;
+          const urlFallback = `${apiBaseUrl}/api/candidatos?cargo=${cargoConfig.fallbackCargoApi}&numero=${numero}`;
           response = await fetch(urlFallback, {
             method: 'GET',
             headers: { 'Accept': 'application/json' }
