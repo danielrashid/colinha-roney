@@ -17,7 +17,12 @@ module.exports = async function handler(req, res) {
 
   try {
     const upstreamResponse = await fetch(apiUrl, {
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        Origin: 'https://colinha.sandrafaraj.com.br',
+        Referer: 'https://colinha.sandrafaraj.com.br/',
+        'User-Agent': 'Mozilla/5.0'
+      },
       signal: AbortSignal.timeout(10000)
     });
 
