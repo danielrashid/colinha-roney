@@ -429,6 +429,19 @@
     // 6. Presidente (cargo 1, 2 dígitos)
     const CARGOS_CONFIG = [
       {
+        id: 'dep_federal',
+        nome: 'Deputado Federal',
+        cargoApi: '6',
+        fallbackCargoApi: '6',
+        digitos: 4,
+        placeholder: '0000',
+        badge: 'DF',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      },
+      {
         id: 'dep_distrital',
         nome: 'Deputado Distrital',
         cargoApi: '8', // TSE DF code
@@ -446,39 +459,6 @@
           siglaPartido: 'PP',
           foto: './fotos-tse/FDF70002538503_div.jpg'
         },
-        loading: false
-      },
-      {
-        id: 'governador',
-        nome: 'Governadora',
-        cargoApi: '3',
-        fallbackCargoApi: '3',
-        digitos: 2,
-        placeholder: '00',
-        badge: 'DF',
-        numero: '11',
-        confirmado: true,
-        candidato: {
-          nome: 'CELINA LEÃO HIZIM FERREIRA',
-          nomeUrna: 'CELINA LEÃO',
-          numero: '11',
-          partido: 'PROGRESSISTAS - PP',
-          siglaPartido: 'PP',
-          foto: './celina.webp'
-        },
-        loading: false
-      },
-      {
-        id: 'dep_federal',
-        nome: 'Deputado Federal',
-        cargoApi: '6',
-        fallbackCargoApi: '6',
-        digitos: 4,
-        placeholder: '0000',
-        badge: 'DF',
-        numero: '',
-        confirmado: false,
-        candidato: null,
         loading: false
       },
       {
@@ -505,6 +485,26 @@
         numero: '',
         confirmado: false,
         candidato: null,
+        loading: false
+      },
+      {
+        id: 'governador',
+        nome: 'Governadora',
+        cargoApi: '3',
+        fallbackCargoApi: '3',
+        digitos: 2,
+        placeholder: '00',
+        badge: 'DF',
+        numero: '11',
+        confirmado: true,
+        candidato: {
+          nome: 'CELINA LEÃO HIZIM FERREIRA',
+          nomeUrna: 'CELINA LEÃO',
+          numero: '11',
+          partido: 'PROGRESSISTAS - PP',
+          siglaPartido: 'PP',
+          foto: './celina.webp'
+        },
         loading: false
       },
       {
@@ -928,11 +928,12 @@
 
       CARGOS_CONFIG.forEach(item => {
         const row = document.createElement('div');
+        const isUnfilled = !item.confirmado && !item.numero;
         row.className = item.id === 'dep_distrital'
           ? 'bg-orange-50 rounded-xl p-3 border-2 border-roney flex items-center justify-between gap-3 shadow-sm'
           : item.id === 'governador'
             ? 'bg-blue-50 rounded-xl p-3 border-2 border-blue-300 flex items-center justify-between gap-3 shadow-sm'
-            : 'bg-white rounded-xl p-3 border border-slate-200 flex items-center justify-between gap-3 shadow-xs';
+            : `bg-white rounded-xl p-3 border border-slate-200 flex gap-3 shadow-xs ${isUnfilled ? 'flex-col items-start' : 'items-center justify-between'}`;
 
         let content = '';
         if (item.confirmado && item.candidato) {
@@ -969,13 +970,14 @@
             <span class="font-urna font-black text-xl text-amber-900">${item.numero}</span>
           `;
         } else {
-          // Unfilled cargo: user can still generate!
+          // Leave blank digit boxes so the printed/exported sheet can be filled in by hand.
           content = `
-            <div>
-              <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
-              <span class="text-xs text-slate-400 italic">A definir / Não preenchido</span>
+            <div class="w-full">
+              <span class="text-xs sm:text-sm uppercase font-black tracking-wide text-slate-800 block mb-2">${item.nome}</span>
+              <div class="flex items-center gap-2" aria-label="Espaços para preencher ${item.nome}">
+                ${Array.from({ length: item.digitos }, () => '<span class="w-8 h-9 sm:w-9 sm:h-10 bg-white border-2 border-dashed border-amber-400 rounded-sm inline-block"></span>').join('')}
+              </div>
             </div>
-            <span class="text-xs text-amber-800 font-medium px-2 py-0.5 rounded bg-amber-100">--</span>
           `;
         }
 
