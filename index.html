@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colinha Digital | Celina Leão Governadora</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for crisp icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & Barlow for Urna digit feeling -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- html2canvas for generating image export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-urna {
+      font-family: 'Chakra Petch', monospace;
+    }
+    .urna-box {
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor-blink {
+      animation: blink 0.9s infinite;
+    }
+    /* Printable cheat sheet styling */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            celina: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#1e3a8a',
+              900: '#172554',
+            },
+            urna: {
+              dark: '#1c1f24',
+              btnGreen: '#009b3a',
+              btnGreenHover: '#008230',
+              btnOrange: '#ff6200',
+              btnOrangeHover: '#e05600',
+              btnWhite: '#f3f4f6',
+              btnWhiteHover: '#e5e7eb',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-24">
+
+  <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-800 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-yellow-400 bg-white flex-shrink-0 shadow-md">
+          <img src="./pata.png"
+            alt="Símbolo 11"
+            class="w-full h-full object-contain p-1.5">
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-black tracking-tight leading-none text-white">COLINHA DIGITAL</h1>
+            <span class="bg-yellow-400 text-blue-950 text-[10px] sm:text-xs font-black px-1.5 py-0.5 rounded tracking-wide uppercase">DF 2026</span>
+          </div>
+          <p class="text-xs text-blue-200 font-medium">Celina Leão • Governadora <span class="text-yellow-300 font-bold">11</span></p>
+        </div>
+      </div>
+      
+      <!-- Audio Toggle Button -->
+      <button id="soundToggleBtn" onclick="toggleSound()" class="flex items-center gap-1.5 text-xs bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-full transition text-blue-100">
+        <i id="soundIcon" class="fa-solid fa-volume-high text-yellow-300"></i>
+        <span class="hidden sm:inline" id="soundLabel">Sons da Urna</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pt-4 sm:pt-6 space-y-5">
+    
+    <!-- Top Alert / Welcome Note -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <i class="fa-solid fa-check-to-slot text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-sm sm:text-base font-bold text-slate-800">Monte a sua colinha eleitoral para o DF!</h2>
+          <p class="text-xs sm:text-sm text-slate-600">
+            Digite o número do seu candidato e clique em <b>Confirmar</b>. Se quiser, você já pode <b>gerar sua colinha agora</b> mesmo sem preencher todos os cargos!
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Button to Generate Cheat Sheet -->
+      <button onclick="openColinhaModal()" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-2.5 px-5 rounded-xl shadow-md shadow-green-600/20 active:scale-95 transition-all text-sm">
+        <i class="fa-solid fa-file-invoice text-yellow-300 text-base"></i>
+        <span>Ver / Gerar Colinha</span>
+      </button>
+    </div>
+
+    <!-- CARD GOVERNADORA: CELINA LEÃO (Pre-filled & Highlighted) -->
+    <div class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 rounded-3xl p-5 sm:p-6 text-white shadow-xl border-4 border-yellow-400 overflow-hidden">
+      <!-- Glow background shape -->
+      <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-yellow-400/20 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
+        <!-- Candidate profile section -->
+        <div class="flex items-center gap-4 sm:gap-5">
+          <div class="relative flex-shrink-0">
+            <div class="w-24 h-28 sm:w-28 sm:h-32 rounded-2xl overflow-hidden border-2 border-yellow-300 shadow-lg bg-blue-950">
+                  <img src="./celina.webp"
+                   alt="Celina Leão" 
+                    class="w-full h-full object-cover object-top">
+            </div>
+            <span class="absolute -bottom-2 -right-2 bg-yellow-400 text-blue-950 text-[11px] font-black px-2 py-0.5 rounded-full shadow border border-white">
+              DF
+            </span>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="bg-yellow-400/90 text-blue-950 text-xs font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                <i class="fa-solid fa-star mr-1"></i> Definida
+              </span>
+              <span class="bg-white/20 text-white text-xs font-semibold px-2 py-0.5 rounded-md">
+                Governadora
+              </span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight tracking-tight">CELINA LEÃO</h3>
+            <p class="text-blue-200 text-xs sm:text-sm font-medium mt-0.5">Partido Progressistas (PP) • Vice - Gustavo Rocha</p>
+            <div class="mt-2 flex items-center gap-2">
+              <span class="text-xs text-yellow-300 font-semibold"><i class="fa-solid fa-circle-check"></i> Cargo confirmado na sua colinha</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Urna Digit Display for Celina -->
+        <div class="bg-blue-950/80 rounded-2xl p-4 border border-blue-400/30 flex flex-row md:flex-col items-center justify-between md:justify-center gap-3">
+          <div class="text-left md:text-center">
+            <span class="text-[11px] uppercase tracking-wider text-blue-300 font-bold block">Número do Voto</span>
+            <span class="text-xs text-white/70">Governadora</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-12 h-14 bg-white text-blue-950 font-urna font-black text-3xl flex items-center justify-center rounded-lg shadow-inner">1</span>
+            <span class="w-12 h-14 bg-white text-blue-950 font-urna font-black text-3xl flex items-center justify-center rounded-lg shadow-inner">1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION TITLE -->
+    <div class="pt-2 flex items-center justify-between">
+      <div>
+        <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-blue-600"></i>
+          Preencha os demais cargos
+        </h3>
+        <p class="text-xs text-slate-500">Ordem idêntica à votação da Urna Eletrônica</p>
+      </div>
+      <button onclick="limparTudo()" class="text-xs text-slate-500 hover:text-red-600 transition flex items-center gap-1">
+        <i class="fa-solid fa-trash-can"></i> Limpar não confirmados
+      </button>
+    </div>
+
+    <!-- Container of Candidate Positions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="cargosContainer">
+      <!-- Cards will be populated by JS -->
+    </div>
+
+    <!-- Big Final Generate Action -->
+    <div class="pt-4 text-center">
+      <button onclick="openColinhaModal()" class="w-full sm:w-2/3 mx-auto flex items-center justify-center gap-3 bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-800 hover:from-blue-800 hover:to-indigo-700 text-white font-extrabold text-base sm:text-lg py-4 px-8 rounded-2xl shadow-xl shadow-blue-700/25 active:scale-95 transition-all">
+        <i class="fa-solid fa-receipt text-yellow-300 text-xl"></i>
+        <span>GERAR MINHA COLINHA DIGITAL AGORA</span>
+      </button>
+      <p class="text-xs text-slate-500 mt-2">Você pode gerar mesmo se deixar cargos em branco ou sem preencher!</p>
+    </div>
+  </main>
+
+  <footer class="mt-8 border-t-4 border-yellow-400 bg-blue-950 text-white">
+    <div class="max-w-4xl mx-auto px-4 py-5 sm:py-6 flex flex-col items-center gap-2">
+      <img src="./celina11.webp"
+           alt="Governadora Celina Leão e vice Gustavo Rocha"
+           class="w-48 h-32 object-contain"
+           loading="lazy">
+      <p class="text-[11px] font-semibold text-blue-200">COLINHA DIGITAL • DF 2026</p>
+    </div>
+  </footer>
+
+  <!-- VIRTUAL KEYPAD MODAL (Optional helper for phone users) -->
+  <div id="urnaKeypadModal" class="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-5 text-white shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span id="keypadCargoNome" class="text-xs uppercase font-bold text-yellow-400">Cargo</span>
+          <h4 id="keypadTitle" class="text-base font-bold text-white">Digite o Número</h4>
+        </div>
+        <button onclick="closeKeypad()" class="text-slate-400 hover:text-white p-2">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Digit boxes preview inside Keypad -->
+      <div class="flex justify-center items-center gap-2 py-2" id="keypadDigitDisplay">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Keypad Grid (Urna Style) -->
+      <div class="grid grid-cols-3 gap-2.5 max-w-[280px] mx-auto">
+        <button onclick="pressKey(1)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">1</button>
+        <button onclick="pressKey(2)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">2</button>
+        <button onclick="pressKey(3)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">3</button>
+        <button onclick="pressKey(4)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">4</button>
+        <button onclick="pressKey(5)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">5</button>
+        <button onclick="pressKey(6)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">6</button>
+        <button onclick="pressKey(7)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">7</button>
+        <button onclick="pressKey(8)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">8</button>
+        <button onclick="pressKey(9)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">9</button>
+        <div class="h-12"></div>
+        <button onclick="pressKey(0)" class="h-12 rounded-xl bg-slate-800 hover:bg-slate-700 font-urna font-bold text-2xl text-white shadow active:scale-95 transition">0</button>
+        <div class="h-12"></div>
+      </div>
+
+      <!-- Urna Buttons: BRANCO, CORRIGE, CONFIRMA -->
+      <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800">
+        <button onclick="votarBrancoKeypad()" class="h-12 rounded-xl bg-urna-btnWhite hover:bg-urna-btnWhiteHover text-slate-800 font-bold text-xs uppercase tracking-wider shadow active:scale-95 transition">
+          Branco
+        </button>
+        <button onclick="corrigirKeypad()" class="h-12 rounded-xl bg-urna-btnOrange hover:bg-urna-btnOrangeHover text-white font-bold text-xs uppercase tracking-wider shadow active:scale-95 transition">
+          Corrige
+        </button>
+        <button onclick="confirmarKeypad()" class="h-12 rounded-xl bg-urna-btnGreen hover:bg-urna-btnGreenHover text-white font-bold text-xs uppercase tracking-wider shadow active:scale-95 transition">
+          Confirma
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COLINHA DIGITAL PRONTA -->
+  <div id="colinhaModal" class="fixed inset-0 bg-slate-900/80 z-50 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[95vh] flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 text-white flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-receipt text-yellow-400 text-lg"></i>
+          <h3 class="font-black text-base sm:text-lg">Sua Colinha Digital DF</h3>
+        </div>
+        <button onclick="closeColinhaModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable Printable / Shareable Card Area -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 flex-grow" id="printArea">
+        <div id="colinhaExportCard" class="bg-slate-50 border-2 border-blue-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+          
+          <!-- Colinha Header inside Card -->
+          <div class="border-b border-blue-200 pb-3 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 block">ELEIÇÕES • BRASÍLIA / DF</span>
+              <h2 class="text-xl font-black text-slate-900">MINHA COLINHA 2026</h2>
+            </div>
+            <div class="text-right">
+              <span class="bg-yellow-400 text-blue-950 font-black text-xs px-2.5 py-1 rounded-md">
+                GOV: CELINA 11
+              </span>
+            </div>
+          </div>
+
+          <!-- Highlight Governadora inside Colinha -->
+          <div class="bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-xl p-3 flex items-center justify-between border-2 border-yellow-400 shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-14 rounded-lg overflow-hidden border border-yellow-300 bg-blue-950 flex-shrink-0">
+                 <img src="./celina.webp"
+                   alt="Celina Leão"
+                   class="w-full h-full object-cover object-top">
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold text-yellow-300 tracking-wide block">Governadora (DF)</span>
+                <span class="text-base font-black tracking-tight text-white block">CELINA LEÃO</span>
+                <span class="text-xs text-blue-200">PP</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-urna font-black text-3xl text-yellow-300 tracking-wider">11</span>
+            </div>
+          </div>
+
+          <!-- List of other cargos inside Colinha -->
+          <div class="space-y-2.5" id="colinhaListRows">
+            <!-- Injected by JavaScript -->
+          </div>
+
+          <div class="border-t border-slate-200 pt-3 text-center text-[11px] text-slate-500">
+            Colinha Digital Celina Leão Governadora • Guarde no celular para o dia da eleição!
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer with Action Buttons -->
+      <div class="bg-slate-100 p-4 border-t border-slate-200 flex-shrink-0 flex flex-wrap gap-2.5 justify-between">
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+          <!-- WhatsApp Share -->
+          <button onclick="shareWhatsApp()" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl shadow active:scale-95 transition text-xs sm:text-sm">
+            <i class="fa-brands fa-whatsapp text-base"></i>
+            <span>WhatsApp</span>
+          </button>
+          
+          <!-- Copy Text -->
+          <button onclick="copiarTextoColinha()" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-3.5 rounded-xl shadow active:scale-95 transition text-xs sm:text-sm">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copiar</span>
+          </button>
+
+          <!-- Download as Image -->
+          <button onclick="downloadColinhaImage()" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-3.5 rounded-xl shadow active:scale-95 transition text-xs sm:text-sm">
+            <i class="fa-solid fa-download"></i>
+            <span>Salvar Imagem</span>
+          </button>
+        </div>
+
+        <!-- Print -->
+        <button onclick="imprimirColinha()" class="w-full sm:w-auto flex items-center justify-center gap-1.5 border border-slate-300 hover:bg-white text-slate-700 font-semibold py-2.5 px-3 rounded-xl transition text-xs sm:text-sm">
+          <i class="fa-solid fa-print"></i>
+          <span>Imprimir</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-semibold flex items-center gap-2.5 opacity-0 pointer-events-none transition-all duration-300 z-50">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-green-400"></i>
+    <span id="toastMsg">Mensagem</span>
+  </div>
+
+  <script>
+    // Sound FX generator using Web Audio API (iconic Urna tones without external audio file dependency)
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.08, delay = 0) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + delay);
+        osc.stop(audioCtx.currentTime + delay + duration);
+      } catch (e) {
+        console.warn('Audio not allowed or supported', e);
+      }
+    }
+
+    // Urna Keypad Beep
+    function playBeep() {
+      playTone(480, 'sine', 0.07);
+    }
+
+    // Urna "Pililili" Confirmation sound
+    function playConfirmSound() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      // Realistic 3-phase Brazilian electronic ballot sound
+      playTone(1100, 'sine', 0.12, 0.0);
+      playTone(1400, 'sine', 0.12, 0.12);
+      playTone(1760, 'sine', 0.28, 0.24);
+    }
+
+    // Corrige low pitch tone
+    function playCorrigeSound() {
+      playTone(280, 'triangle', 0.14);
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      const label = document.getElementById('soundLabel');
+      if (soundEnabled) {
+        icon.className = 'fa-solid fa-volume-high text-yellow-300';
+        label.innerText = 'Sons da Urna';
+        showToast('Sons da urna ativados');
+        playBeep();
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+        label.innerText = 'Sem som';
+        showToast('Sons desativados');
+      }
+    }
+
+    // DEFINITIONS OF CARGOS (Standard TSE order)
+    // 1. Deputado Federal (cargo 6, 4 dígitos)
+    // 2. Deputado Distrital (cargo 8, 5 dígitos)
+    // 3. 1º Senador (cargo 5, 3 dígitos)
+    // 4. 2º Senador (cargo 5, 3 dígitos)
+    // 5. Governador (cargo 3 - preenchido com Celina Leão 11)
+    // 6. Presidente (cargo 1, 2 dígitos)
+    const CARGOS_CONFIG = [
+      {
+        id: 'dep_federal',
+        nome: 'Deputado Federal',
+        cargoApi: '6',
+        fallbackCargoApi: '6',
+        digitos: 4,
+        placeholder: '0000',
+        badge: 'DF',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      },
+      {
+        id: 'dep_distrital',
+        nome: 'Deputado Distrital',
+        cargoApi: '8', // TSE DF code
+        fallbackCargoApi: '7', // standard estadual fallback
+        digitos: 5,
+        placeholder: '00000',
+        badge: 'DF',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      },
+      {
+        id: 'senador_1',
+        nome: '1º Senador',
+        cargoApi: '5',
+        fallbackCargoApi: '5',
+        digitos: 3,
+        placeholder: '000',
+        badge: '1ª Vaga',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      },
+      {
+        id: 'senador_2',
+        nome: '2º Senador',
+        cargoApi: '5',
+        fallbackCargoApi: '5',
+        digitos: 3,
+        placeholder: '000',
+        badge: '2ª Vaga',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      },
+      {
+        id: 'presidente',
+        nome: 'Presidente da República',
+        cargoApi: '1',
+        fallbackCargoApi: '1',
+        digitos: 2,
+        placeholder: '00',
+        badge: 'Brasil',
+        numero: '',
+        confirmado: false,
+        candidato: null,
+        loading: false
+      }
+    ];
+
+    // Celina Leão definition for Governadora (pre-filled fixed anchor)
+    const CELINA_GOVERNADORA = {
+      id: 'governadora',
+      nome: 'Governadora',
+      cargoApi: '3',
+      digitos: 2,
+      numero: '11',
+      confirmado: true,
+      candidato: {
+        nome: 'CELINA LEÃO HIZIM FERREIRA',
+        nomeUrna: 'CELINA LEÃO',
+        numero: '11',
+        partido: 'PROGRESSISTAS - PP',
+        siglaPartido: 'PP',
+        foto: './celina.webp'
+      }
+    };
+
+    let activeKeypadCargoId = null;
+
+    function renderCargosCards() {
+      const container = document.getElementById('cargosContainer');
+      container.innerHTML = '';
+
+      CARGOS_CONFIG.forEach(item => {
+        const card = document.createElement('div');
+        card.id = `card-${item.id}`;
+        card.className = `bg-white rounded-2xl border transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between ${
+          item.confirmado ? 'border-emerald-300 ring-2 ring-emerald-500/10' : 'border-slate-200'
+        }`;
+
+        // Top info bar
+        let html = `
+          <div class="p-4 sm:p-5 flex-grow space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full ${item.confirmado ? 'bg-emerald-500' : 'bg-slate-300'}"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">${item.nome}</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+                ${item.digitos} dígitos
+              </span>
+            </div>
+
+            <!-- Number input row styled as Urna display -->
+            <div class="flex items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+              <div class="flex items-center gap-1.5 cursor-pointer" onclick="openKeypadFor('${item.id}')">
+                ${renderDigitBoxes(item)}
+              </div>
+              <button onclick="openKeypadFor('${item.id}')" title="Teclado da Urna" class="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 flex items-center justify-center transition active:scale-95 text-xs font-bold">
+                <i class="fa-solid fa-keyboard"></i>
+              </button>
+            </div>
+
+            <!-- Candidate Details / Result preview -->
+            <div class="min-h-[70px] flex items-center">
+              ${renderCandidateStatus(item)}
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons: BRANCO, CORRIGE, CONFIRMA -->
+          <div class="bg-slate-50/80 px-4 py-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="votarBranco('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200 transition active:scale-95">
+              Branco
+            </button>
+            <div class="flex items-center gap-1.5">
+              <button onclick="corrigirCargo('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-urna-btnOrange hover:bg-urna-btnOrangeHover text-white text-xs font-bold transition active:scale-95 shadow-sm">
+                Corrige
+              </button>
+              <button onclick="confirmarCargo('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-urna-btnGreen hover:bg-urna-btnGreenHover text-white text-xs font-bold transition active:scale-95 shadow-sm flex items-center gap-1">
+                <i class="fa-solid fa-check text-[10px]"></i>
+                <span>Confirma</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+    }
+
+    // Helper to render Urna digit visual boxes
+    function renderDigitBoxes(item) {
+      let boxes = '';
+      const val = item.numero || '';
+      for (let i = 0; i < item.digitos; i++) {
+        const char = val[i] || '';
+        const isCurrentActive = i === val.length && !item.confirmado;
+        boxes += `
+          <div class="w-8 h-10 sm:w-9 sm:h-11 rounded-lg font-urna text-xl sm:text-2xl font-bold flex items-center justify-center border ${
+            char ? 'bg-white text-slate-900 border-blue-400 shadow-sm' : 
+            isCurrentActive ? 'bg-blue-50/50 border-blue-500 ring-2 ring-blue-300' : 'bg-white/80 border-slate-300 text-slate-300'
+          }">
+            ${char ? char : (isCurrentActive ? '<span class="inline-block w-0.5 h-5 bg-blue-600 cursor-blink"></span>' : '')}
+          </div>
+        `;
+      }
+      return boxes;
+    }
+
+    // Helper to render Candidate display inside card
+    function renderCandidateStatus(item) {
+      if (item.loading) {
+        return `
+          <div class="w-full flex items-center gap-3 text-slate-500 py-1">
+            <div class="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-xs font-medium">Buscando na API de Candidatos...</span>
+          </div>
+        `;
+      }
+
+      if (item.confirmado) {
+        if (item.candidato) {
+          const foto = item.candidato.foto || 'https://placehold.co/120x150/e2e8f0/475569?text=Candidato';
+          return `
+            <div class="w-full flex items-center gap-3 bg-emerald-50/80 border border-emerald-200 rounded-xl p-2.5">
+              <div class="w-12 h-14 rounded-lg overflow-hidden border border-emerald-300 bg-white flex-shrink-0 shadow-sm">
+                <img src="${foto}" alt="${item.candidato.nomeUrna}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x120/cbd5e1/334155?text=Foto'">
+              </div>
+              <div class="overflow-hidden flex-grow">
+                <span class="text-[10px] uppercase font-bold text-emerald-700 tracking-wider flex items-center gap-1">
+                  <i class="fa-solid fa-circle-check"></i> Candidato Confirmado
+                </span>
+                <p class="text-sm font-black text-slate-900 truncate leading-tight">${item.candidato.nomeUrna || item.candidato.nome}</p>
+                <p class="text-xs text-slate-600 truncate">${item.candidato.partido || item.candidato.siglaPartido || 'Partido'}</p>
+              </div>
+              <span class="font-urna font-bold text-lg text-emerald-800">${item.numero}</span>
+            </div>
+          `;
+        } else if (item.numero === 'BRANCO') {
+          return `
+            <div class="w-full bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-center">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">VOTO EM BRANCO</span>
+              <p class="text-[11px] text-slate-500">Confirmado como voto em branco</p>
+            </div>
+          `;
+        }
+      }
+
+      // If user typed digits but hasn't confirmed yet
+      if (item.numero && !item.confirmado) {
+        return `
+          <div class="w-full flex items-center justify-between text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-2.5">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-hand-pointer text-amber-600"></i>
+              Clique em <b>CONFIRMA</b> para buscar
+            </span>
+            <button onclick="confirmarCargo('${item.id}')" class="bg-amber-600 text-white text-[11px] font-bold px-2 py-1 rounded-md">
+              Confirmar agora
+            </button>
+          </div>
+        `;
+      }
+
+      // Default empty prompt
+      return `
+        <div class="text-xs text-slate-400 italic flex items-center gap-1.5">
+          <i class="fa-regular fa-keyboard"></i>
+          <span>Digite o número do seu candidato</span>
+        </div>
+      `;
+    }
+
+    async function fetchCandidatoApi(cargoConfig, numero) {
+      cargoConfig.loading = true;
+      renderCargosCards();
+
+      const urlPrimary = `https://colinha.sandrafaraj.com.br/api/candidatos?cargo=${cargoConfig.cargoApi}&numero=${numero}`;
+      
+      try {
+        // Attempt fetch from primary API
+        let response = await fetch(urlPrimary, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok && cargoConfig.fallbackCargoApi && cargoConfig.fallbackCargoApi !== cargoConfig.cargoApi) {
+          // Attempt fallback cargo if 8 (Distrital) -> 7 (Estadual)
+          const urlFallback = `https://colinha.sandrafaraj.com.br/api/candidatos?cargo=${cargoConfig.fallbackCargoApi}&numero=${numero}`;
+          response = await fetch(urlFallback, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+          });
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const cand = normalizeCandidatoData(data, numero);
+
+        if (cand) {
+          cargoConfig.candidato = cand;
+          cargoConfig.confirmado = true;
+          playConfirmSound();
+          showToast(`Candidato(a) ${cand.nomeUrna || cand.nome} confirmado!`);
+        } else {
+          cargoConfig.candidato = null;
+          cargoConfig.confirmado = false;
+          showToast(`Nenhum candidato encontrado para o número ${numero}.`, 'warn');
+        }
+      } catch (err) {
+        console.warn('API lookup failed:', err);
+        cargoConfig.candidato = null;
+        cargoConfig.confirmado = false;
+        showToast('Não foi possível consultar a API. Verifique a conexão ou a configuração de CORS.', 'warn');
+      } finally {
+        cargoConfig.loading = false;
+        renderCargosCards();
+      }
+    }
+
+    // Normalize potential API formats (array, single object, nested data)
+    function normalizeCandidatoData(data, numero) {
+      if (!data || data.found === false) return null;
+      let raw = null;
+      if (Array.isArray(data)) {
+        if (data.length === 0) return null;
+        raw = data[0];
+      } else if (typeof data === 'object') {
+        if (data.candidato) raw = data.candidato;
+        else if (data.data && Array.isArray(data.data) && data.data.length > 0) raw = data.data[0];
+        else if (data.data && typeof data.data === 'object') raw = data.data;
+        else raw = data;
+      }
+
+      if (!raw || Object.keys(raw).length === 0) return null;
+
+      const nomeUrna = raw.nomeUrna || raw.nome_urna || raw.nome || raw.name || raw.nm_urna_candidato || `Candidato ${numero}`;
+      const nomeCompleto = raw.nome || raw.nomeCompleto || raw.nome_candidato || raw.name || nomeUrna;
+      const foto = raw.foto || raw.fotoUrl || raw.foto_url || raw.urlFoto || raw.imagem || raw.image || '';
+      const partido = raw.partido || raw.siglaPartido || raw.sg_partido || raw.partido_sigla || raw.party || 'Partido Registrado';
+
+      return {
+        numero: String(raw.numero || numero),
+        nome: nomeCompleto,
+        nomeUrna: nomeUrna,
+        foto: foto ? new URL(foto, 'https://colinha.sandrafaraj.com.br').href : '',
+        partido: partido,
+        siglaPartido: partido
+      };
+    }
+
+    function openKeypadFor(cargoId) {
+      initAudio();
+      activeKeypadCargoId = cargoId;
+      const cargo = CARGOS_CONFIG.find(c => c.id === cargoId);
+      if (!cargo) return;
+
+      document.getElementById('keypadCargoNome').innerText = cargo.nome;
+      document.getElementById('keypadTitle').innerText = `Vote para ${cargo.nome}`;
+      updateKeypadDisplay(cargo);
+      document.getElementById('urnaKeypadModal').classList.remove('hidden');
+    }
+
+    function closeKeypad() {
+      document.getElementById('urnaKeypadModal').classList.add('hidden');
+      activeKeypadCargoId = null;
+    }
+
+    function updateKeypadDisplay(cargo) {
+      const container = document.getElementById('keypadDigitDisplay');
+      let html = '';
+      const val = cargo.numero || '';
+      for (let i = 0; i < cargo.digitos; i++) {
+        const char = val[i] || '';
+        const isCurrentActive = i === val.length;
+        html += `
+          <div class="w-10 h-12 rounded-xl font-urna text-2xl font-bold flex items-center justify-center border-2 ${
+            char ? 'bg-slate-800 text-yellow-300 border-yellow-400 shadow-md' : 
+            isCurrentActive ? 'bg-slate-800/80 border-blue-400 ring-2 ring-blue-500/50 text-white' : 'bg-slate-900 border-slate-700 text-slate-600'
+          }">
+            ${char ? char : (isCurrentActive ? '<span class="inline-block w-0.5 h-6 bg-yellow-400 cursor-blink"></span>' : '')}
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function pressKey(num) {
+      playBeep();
+      if (!activeKeypadCargoId) return;
+      const cargo = CARGOS_CONFIG.find(c => c.id === activeKeypadCargoId);
+      if (!cargo) return;
+
+      if (cargo.numero === 'BRANCO') {
+        cargo.numero = '';
+      }
+
+      if (cargo.numero.length < cargo.digitos) {
+        cargo.numero += String(num);
+        cargo.confirmado = false;
+        updateKeypadDisplay(cargo);
+        renderCargosCards();
+      }
+    }
+
+    function votarBrancoKeypad() {
+      if (!activeKeypadCargoId) return;
+      votarBranco(activeKeypadCargoId);
+      closeKeypad();
+    }
+
+    function corrigirKeypad() {
+      playCorrigeSound();
+      if (!activeKeypadCargoId) return;
+      const cargo = CARGOS_CONFIG.find(c => c.id === activeKeypadCargoId);
+      if (cargo) {
+        cargo.numero = '';
+        cargo.candidato = null;
+        cargo.confirmado = false;
+        updateKeypadDisplay(cargo);
+        renderCargosCards();
+      }
+    }
+
+    function confirmarKeypad() {
+      if (!activeKeypadCargoId) return;
+      const cargoId = activeKeypadCargoId;
+      closeKeypad();
+      confirmarCargo(cargoId);
+    }
+
+    function votarBranco(cargoId) {
+      playBeep();
+      const cargo = CARGOS_CONFIG.find(c => c.id === cargoId);
+      if (!cargo) return;
+
+      cargo.numero = 'BRANCO';
+      cargo.candidato = null;
+      cargo.confirmado = true;
+      playConfirmSound();
+      renderCargosCards();
+      showToast(`${cargo.nome}: Voto em branco registrado`);
+    }
+
+    function corrigirCargo(cargoId) {
+      playCorrigeSound();
+      const cargo = CARGOS_CONFIG.find(c => c.id === cargoId);
+      if (!cargo) return;
+
+      cargo.numero = '';
+      cargo.candidato = null;
+      cargo.confirmado = false;
+      renderCargosCards();
+      showToast(`${cargo.nome} corrigido`);
+    }
+
+    function confirmarCargo(cargoId) {
+      initAudio();
+      const cargo = CARGOS_CONFIG.find(c => c.id === cargoId);
+      if (!cargo) return;
+
+      if (!cargo.numero) {
+        showToast(`Digite o número para ${cargo.nome}`, 'warn');
+        openKeypadFor(cargoId);
+        return;
+      }
+
+      if (cargo.numero === 'BRANCO') {
+        cargo.confirmado = true;
+        playConfirmSound();
+        renderCargosCards();
+        return;
+      }
+
+      if (cargo.numero.length < cargo.digitos) {
+        showToast(`O cargo ${cargo.nome} requer ${cargo.digitos} dígitos!`, 'warn');
+        openKeypadFor(cargoId);
+        return;
+      }
+
+      // Fetch candidate from API
+      fetchCandidatoApi(cargo, cargo.numero);
+    }
+
+    function limparTudo() {
+      CARGOS_CONFIG.forEach(c => {
+        c.numero = '';
+        c.candidato = null;
+        c.confirmado = false;
+        c.loading = false;
+      });
+      playCorrigeSound();
+      renderCargosCards();
+      showToast('Cargos não preenchidos foram resetados');
+    }
+
+    // Requirement: Allow generating cheat sheet EVEN IF NOT ALL CARGOS ARE FILLED
+    function openColinhaModal() {
+      initAudio();
+      playConfirmSound();
+
+      const listContainer = document.getElementById('colinhaListRows');
+      listContainer.innerHTML = '';
+
+      // Render all cargos in official order
+      // 1. Dep Federal
+      // 2. Dep Distrital
+      // 3. 1º Senador
+      // 4. 2º Senador
+      // (Governadora is already highlighted on top)
+      // 5. Presidente
+
+      CARGOS_CONFIG.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'bg-white rounded-xl p-3 border border-slate-200 flex items-center justify-between gap-3 shadow-xs';
+
+        let content = '';
+        if (item.confirmado && item.candidato) {
+          content = `
+            <div class="flex items-center gap-3 overflow-hidden">
+              <div class="w-10 h-12 rounded bg-slate-100 overflow-hidden border border-slate-200 flex-shrink-0">
+                <img src="${item.candidato.foto || 'https://placehold.co/100x120/cbd5e1/334155?text=Foto'}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x120/cbd5e1/334155?text=Foto'">
+              </div>
+              <div class="overflow-hidden">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
+                <span class="text-sm font-black text-slate-800 truncate block">${item.candidato.nomeUrna || item.candidato.nome}</span>
+                <span class="text-xs text-slate-500">${item.candidato.partido || ''}</span>
+              </div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <span class="font-urna font-black text-2xl text-blue-900">${item.numero}</span>
+            </div>
+          `;
+        } else if (item.numero === 'BRANCO') {
+          content = `
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
+              <span class="text-xs font-bold text-slate-700">VOTO EM BRANCO</span>
+            </div>
+            <span class="font-urna font-bold text-sm bg-slate-100 px-2 py-1 rounded text-slate-600">BRANCO</span>
+          `;
+        } else if (item.numero) {
+          // Number typed but not confirmed via API
+          content = `
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
+              <span class="text-xs font-semibold text-slate-700">Candidato registrado</span>
+            </div>
+            <span class="font-urna font-black text-xl text-blue-900">${item.numero}</span>
+          `;
+        } else {
+          // Unfilled cargo: user can still generate!
+          content = `
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
+              <span class="text-xs text-slate-400 italic">A definir / Não preenchido</span>
+            </div>
+            <span class="text-xs text-slate-400 font-medium px-2 py-0.5 rounded bg-slate-100">--</span>
+          `;
+        }
+
+        row.innerHTML = content;
+        listContainer.appendChild(row);
+      });
+
+      document.getElementById('colinhaModal').classList.remove('hidden');
+    }
+
+    function closeColinhaModal() {
+      document.getElementById('colinhaModal').classList.add('hidden');
+    }
+
+    // WhatsApp Sharing with pre-formatted clean text
+    function shareWhatsApp() {
+      const text = generateTextColinha();
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Build text version of colinha
+    function generateTextColinha() {
+      let msg = `🗳️ *MINHA COLINHA DIGITAL - DF 2026*\n\n`;
+      msg += `⭐ *GOVERNADORA:* CELINA LEÃO - 11 (PP)\n`;
+
+      CARGOS_CONFIG.forEach(c => {
+        if (c.confirmado && c.candidato) {
+          msg += `👉 *${c.nome.toUpperCase()}:* ${c.candidato.nomeUrna || c.candidato.nome} - *${c.numero}*\n`;
+        } else if (c.numero === 'BRANCO') {
+          msg += `👉 *${c.nome.toUpperCase()}:* BRANCO\n`;
+        } else if (c.numero) {
+          msg += `👉 *${c.nome.toUpperCase()}:* *${c.numero}*\n`;
+        } else {
+          msg += `👉 *${c.nome.toUpperCase()}:* (A definir)\n`;
+        }
+      });
+
+      msg += `\n🦁 _Criado com a Colinha Digital Celina Leão Governadora!_`;
+      return msg;
+    }
+
+    // Clipboard copy with iframe safety
+    function copiarTextoColinha() {
+      const text = generateTextColinha();
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Colinha copiada com sucesso!');
+      } catch (err) {
+        showToast('Não foi possível copiar automaticamente', 'warn');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Download Colinha card as image using html2canvas
+    function downloadColinhaImage() {
+      showToast('Gerando imagem da colinha...');
+      const target = document.getElementById('colinhaExportCard');
+      
+      html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'minha-colinha-celina-leao-df.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('Imagem baixada com sucesso!');
+      }).catch(err => {
+        console.error(err);
+        showToast('Erro ao exportar imagem. Tente tirar um print da tela!', 'warn');
+      });
+    }
+
+    function imprimirColinha() {
+      window.print();
+    }
+
+    // Toast feedback helper
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.innerText = msg;
+      if (type === 'warn') {
+        toastIcon.className = 'fa-solid fa-triangle-exclamation text-amber-400';
+      } else {
+        toastIcon.className = 'fa-solid fa-circle-check text-green-400';
+      }
+
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+        toast.classList.remove('opacity-100');
+      }, 2600);
+    }
+
+    // Physical Keyboard support (typing numbers, enter, backspace)
+    document.addEventListener('keydown', (e) => {
+      // If modal keypad is open
+      if (activeKeypadCargoId) {
+        if (e.key >= '0' && e.key <= '9') {
+          pressKey(parseInt(e.key));
+        } else if (e.key === 'Backspace') {
+          corrigirKeypad();
+        } else if (e.key === 'Enter') {
+          confirmarKeypad();
+        } else if (e.key === 'Escape') {
+          closeKeypad();
+        }
+      }
+    });
+
+    window.onload = function() {
+      renderCargosCards();
+      console.log('Colinha Digital Celina Leão inicializada com sucesso.');
+    };
+  </script>
+</body>
+</html>
