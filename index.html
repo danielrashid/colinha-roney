@@ -296,13 +296,13 @@
         <div id="colinhaExportCard" class="bg-slate-50 border-2 border-blue-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
           
           <!-- Colinha Header inside Card -->
-          <div class="border-b border-blue-200 pb-3 flex items-center justify-between">
-            <div>
+          <div class="border-b border-blue-200 pb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div class="min-w-0">
               <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 block">ELEIÇÕES • BRASÍLIA / DF</span>
               <h2 class="text-xl font-black text-slate-900">MINHA COLINHA 2026</h2>
             </div>
-            <div class="text-right">
-              <span class="bg-yellow-400 text-blue-950 font-black text-xs px-2.5 py-1 rounded-md">
+            <div class="self-start sm:ml-auto sm:self-center">
+              <span class="inline-block whitespace-nowrap bg-yellow-400 text-blue-950 font-black text-xs px-2.5 py-1 rounded-md">
                 GOV: CELINA 11
               </span>
             </div>
@@ -924,14 +924,14 @@
         let content = '';
         if (item.confirmado && item.candidato) {
           content = `
-            <div class="flex items-center gap-3 overflow-hidden">
+            <div class="flex min-w-0 flex-1 items-center gap-3">
               <div class="w-10 h-12 rounded bg-slate-100 overflow-hidden border border-slate-200 flex-shrink-0">
                 <img src="${item.candidato.foto || 'https://placehold.co/100x120/cbd5e1/334155?text=Foto'}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x120/cbd5e1/334155?text=Foto'">
               </div>
-              <div class="overflow-hidden">
+              <div class="min-w-0 flex-1">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block">${item.nome}</span>
-                <span class="text-sm font-black text-slate-800 truncate block">${item.candidato.nomeUrna || item.candidato.nome}</span>
-                <span class="text-xs text-slate-500">${item.candidato.partido || ''}</span>
+                <span class="text-sm font-black text-slate-800 break-words leading-tight block">${item.candidato.nomeUrna || item.candidato.nome}</span>
+                <span class="text-xs text-slate-500 break-words block">${item.candidato.partido || ''}</span>
               </div>
             </div>
             <div class="text-right flex-shrink-0">
@@ -1029,7 +1029,7 @@
       const target = document.getElementById('colinhaExportCard');
       
       html2canvas(target, {
-        scale: 2,
+        scale: Math.max(2, Math.min(window.devicePixelRatio || 1, 3)),
         useCORS: true,
         backgroundColor: '#ffffff'
       }).then(canvas => {
