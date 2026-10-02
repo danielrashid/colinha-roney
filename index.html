@@ -18,6 +18,7 @@
   
   <!-- html2canvas for generating image export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="./data/candidatos-2026.js"></script>
 
   <style>
     body {
@@ -222,6 +223,7 @@
            class="w-48 h-32 object-contain"
            loading="lazy">
       <p class="text-[11px] font-semibold text-blue-200">COLINHA DIGITAL • DF 2026</p>
+      <a href="https://dadosabertos.tse.jus.br/dataset/candidatos-2026" target="_blank" rel="noreferrer" class="text-[10px] text-blue-300 underline underline-offset-2">Dados e fotos: TSE • Candidatos 2026</a>
     </div>
   </footer>
 
@@ -691,33 +693,16 @@
       cargoConfig.loading = true;
       renderCargosCards();
 
-      const apiBaseUrl = window.location.protocol === 'file:'
-        ? 'https://colinha.sandrafaraj.com.br'
-        : '';
-      const urlPrimary = `${apiBaseUrl}/api/candidatos?cargo=${cargoConfig.cargoApi}&numero=${numero}`;
-      
       try {
-        // Attempt fetch from primary API
-        let response = await fetch(urlPrimary, {
-          method: 'GET',
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (!response.ok && cargoConfig.fallbackCargoApi && cargoConfig.fallbackCargoApi !== cargoConfig.cargoApi) {
-          // Attempt fallback cargo if 8 (Distrital) -> 7 (Estadual)
-          const urlFallback = `${apiBaseUrl}/api/candidatos?cargo=${cargoConfig.fallbackCargoApi}&numero=${numero}`;
-          response = await fetch(urlFallback, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-          });
+        const candidates = window.CANDIDATOS_TSE || [];
+        const cargoCodes = [String(cargoConfig.cargoApi)];
+        if (cargoConfig.fallbackCargoApi && cargoConfig.fallbackCargoApi !== cargoConfig.cargoApi) {
+          cargoCodes.push(String(cargoConfig.fallbackCargoApi));
         }
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const cand = normalizeCandidatoData(data, numero);
+        const candidate = candidates.find(item =>
+          cargoCodes.includes(String(item.cargo)) && String(item.numero) === String(numero)
+        );
+        const cand = candidate ? normalizeCandidatoData(candidate, numero) : null;
 
         if (cand) {
           cargoConfig.candidato = cand;
@@ -730,10 +715,10 @@
           showToast(`Nenhum candidato encontrado para o número ${numero}.`, 'warn');
         }
       } catch (err) {
-        console.warn('API lookup failed:', err);
+        console.error('TSE candidate lookup failed:', err);
         cargoConfig.candidato = null;
         cargoConfig.confirmado = false;
-        showToast('Não foi possível consultar a API. Verifique a conexão ou a configuração de CORS.', 'warn');
+        showToast('Não foi possível carregar os dados oficiais do TSE.', 'warn');
       } finally {
         cargoConfig.loading = false;
         renderCargosCards();
@@ -765,7 +750,7 @@
         numero: String(raw.numero || numero),
         nome: nomeCompleto,
         nomeUrna: nomeUrna,
-        foto: foto ? new URL(foto, 'https://colinha.sandrafaraj.com.br').href : '',
+        foto: foto,
         partido: partido,
         siglaPartido: partido
       };
